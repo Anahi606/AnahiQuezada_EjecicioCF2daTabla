@@ -10,7 +10,7 @@ namespace AnahiQuezada_EjecicioCF.Models
      
         public DateTime FechaPromo { get; set; }
 
-        public int BurgerID { get; set; }
+        public int Id { get; set; }
         public Burger? Burger { get; set; }
     }
 }

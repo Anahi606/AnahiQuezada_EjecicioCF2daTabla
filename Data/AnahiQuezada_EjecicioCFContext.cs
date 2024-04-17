@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AnahiQuezada_EjecicioCF.Models;
 
-namespace BurgerCF.Data
+namespace AnahiQuezada_EjecicioCF.Data
 {
-    public class BurgerCFContext : DbContext
+    public class AnahiQuezada_EjecicioCFContext : DbContext
     {
-        public BurgerCFContext (DbContextOptions<BurgerCFContext> options)
+        public AnahiQuezada_EjecicioCFContext (DbContextOptions<AnahiQuezada_EjecicioCFContext> options)
             : base(options)
         {
         }
 
         public DbSet<AnahiQuezada_EjecicioCF.Models.Burger> Burger { get; set; } = default!;
+        public DbSet<AnahiQuezada_EjecicioCF.Models.Promo> Promo { get; set; } = default!;
     }
 }
