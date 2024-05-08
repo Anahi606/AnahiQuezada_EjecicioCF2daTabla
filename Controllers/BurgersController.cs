@@ -34,7 +34,7 @@ namespace AnahiQuezada_EjecicioCF.Controllers
             }
 
             var burger = await _context.Burger
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.BurgerId == id);
             if (burger == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace AnahiQuezada_EjecicioCF.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,WithCheese,Precio")] Burger burger)
+        public async Task<IActionResult> Create([Bind("BurgerId,Name,WithCheese,Precio")] Burger burger)
         {
             if (ModelState.IsValid)
             {
@@ -86,9 +86,9 @@ namespace AnahiQuezada_EjecicioCF.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,WithCheese,Precio")] Burger burger)
+        public async Task<IActionResult> Edit(int id, [Bind("BurgerId,Name,WithCheese,Precio")] Burger burger)
         {
-            if (id != burger.Id)
+            if (id != burger.BurgerId)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace AnahiQuezada_EjecicioCF.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BurgerExists(burger.Id))
+                    if (!BurgerExists(burger.BurgerId))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace AnahiQuezada_EjecicioCF.Controllers
             }
 
             var burger = await _context.Burger
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.BurgerId == id);
             if (burger == null)
             {
                 return NotFound();
@@ -151,7 +151,7 @@ namespace AnahiQuezada_EjecicioCF.Controllers
 
         private bool BurgerExists(int id)
         {
-            return _context.Burger.Any(e => e.Id == id);
+            return _context.Burger.Any(e => e.BurgerId == id);
         }
     }
 }

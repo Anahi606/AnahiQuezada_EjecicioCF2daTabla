@@ -10,22 +10,23 @@ using AnahiQuezada_EjecicioCF.Models;
 
 namespace AnahiQuezada_EjecicioCF.Controllers
 {
-    public class PromoesController : Controller
+    public class PromoController : Controller
     {
         private readonly AnahiQuezada_EjecicioCFContext _context;
 
-        public PromoesController(AnahiQuezada_EjecicioCFContext context)
+        public PromoController(AnahiQuezada_EjecicioCFContext context)
         {
             _context = context;
         }
 
-        // GET: Promoes
+        // GET: Promo
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Promo.ToListAsync());
+            var anahiQuezada_EjecicioCFContext = _context.Promo.Include(p => p.Burger);
+            return View(await anahiQuezada_EjecicioCFContext.ToListAsync());
         }
 
-        // GET: Promoes/Details/5
+        // GET: Promo/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,7 +35,8 @@ namespace AnahiQuezada_EjecicioCF.Controllers
             }
 
             var promo = await _context.Promo
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(p => p.Burger)
+                .FirstOrDefaultAsync(m => m.PromoId == id);
             if (promo == null)
             {
                 return NotFound();
@@ -43,18 +45,19 @@ namespace AnahiQuezada_EjecicioCF.Controllers
             return View(promo);
         }
 
-        // GET: Promoes/Create
+        // GET: Promo/Create
         public IActionResult Create()
         {
+            ViewData["BurgerId"] = new SelectList(_context.Burger, "BurgerId", "Name");
             return View();
         }
 
-        // POST: Promoes/Create
+        // POST: Promo/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PromoId,Descripcion,FechaPromo,Id")] Promo promo)
+        public async Task<IActionResult> Create([Bind("PromoId,PromoDescripcion,FechaPromocion,BurgerId")] Promo promo)
         {
             if (ModelState.IsValid)
             {
@@ -62,10 +65,11 @@ namespace AnahiQuezada_EjecicioCF.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["BurgerId"] = new SelectList(_context.Burger, "BurgerId", "Name", promo.BurgerId);
             return View(promo);
         }
 
-        // GET: Promoes/Edit/5
+        // GET: Promo/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,17 +82,18 @@ namespace AnahiQuezada_EjecicioCF.Controllers
             {
                 return NotFound();
             }
+            ViewData["BurgerId"] = new SelectList(_context.Burger, "BurgerId", "Name", promo.BurgerId);
             return View(promo);
         }
 
-        // POST: Promoes/Edit/5
+        // POST: Promo/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PromoId,Descripcion,FechaPromo,Id")] Promo promo)
+        public async Task<IActionResult> Edit(int id, [Bind("PromoId,PromoDescripcion,FechaPromocion,BurgerId")] Promo promo)
         {
-            if (id != promo.Id)
+            if (id != promo.PromoId)
             {
                 return NotFound();
             }
@@ -102,7 +107,7 @@ namespace AnahiQuezada_EjecicioCF.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PromoExists(promo.Id))
+                    if (!PromoExists(promo.PromoId))
                     {
                         return NotFound();
                     }
@@ -113,10 +118,11 @@ namespace AnahiQuezada_EjecicioCF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["BurgerId"] = new SelectList(_context.Burger, "BurgerId", "Name", promo.BurgerId);
             return View(promo);
         }
 
-        // GET: Promoes/Delete/5
+        // GET: Promo/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,7 +131,8 @@ namespace AnahiQuezada_EjecicioCF.Controllers
             }
 
             var promo = await _context.Promo
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(p => p.Burger)
+                .FirstOrDefaultAsync(m => m.PromoId == id);
             if (promo == null)
             {
                 return NotFound();
@@ -134,7 +141,7 @@ namespace AnahiQuezada_EjecicioCF.Controllers
             return View(promo);
         }
 
-        // POST: Promoes/Delete/5
+        // POST: Promo/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -151,7 +158,7 @@ namespace AnahiQuezada_EjecicioCF.Controllers
 
         private bool PromoExists(int id)
         {
-            return _context.Promo.Any(e => e.Id == id);
+            return _context.Promo.Any(e => e.PromoId == id);
         }
     }
 }

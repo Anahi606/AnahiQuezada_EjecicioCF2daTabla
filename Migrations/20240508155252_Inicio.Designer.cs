@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AnahiQuezada_EjecicioCF.Migrations
 {
     [DbContext(typeof(AnahiQuezada_EjecicioCFContext))]
-    [Migration("20240417172111_Inicio")]
+    [Migration("20240508155252_Inicio")]
     partial class Inicio
     {
         /// <inheritdoc />
@@ -27,11 +27,11 @@ namespace AnahiQuezada_EjecicioCF.Migrations
 
             modelBuilder.Entity("AnahiQuezada_EjecicioCF.Models.Burger", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("BurgerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BurgerId"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -43,33 +43,29 @@ namespace AnahiQuezada_EjecicioCF.Migrations
                     b.Property<bool>("WithCheese")
                         .HasColumnType("bit");
 
-                    b.HasKey("Id");
+                    b.HasKey("BurgerId");
 
                     b.ToTable("Burger");
                 });
 
             modelBuilder.Entity("AnahiQuezada_EjecicioCF.Models.Promo", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PromoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PromoId"));
 
-                    b.Property<int?>("BurgerId")
+                    b.Property<int>("BurgerId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("FechaPromo")
+                    b.Property<DateTime>("FechaPromocion")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PromoId")
-                        .HasColumnType("int");
+                    b.Property<string>("PromoDescripcion")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("PromoId");
 
                     b.HasIndex("BurgerId");
 
@@ -80,7 +76,9 @@ namespace AnahiQuezada_EjecicioCF.Migrations
                 {
                     b.HasOne("AnahiQuezada_EjecicioCF.Models.Burger", "Burger")
                         .WithMany("Promo")
-                        .HasForeignKey("BurgerId");
+                        .HasForeignKey("BurgerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Burger");
                 });

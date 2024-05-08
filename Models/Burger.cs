@@ -4,12 +4,13 @@ namespace AnahiQuezada_EjecicioCF.Models
 {
     public class Burger
     {
-        public int Id { get; set; }
+        public int BurgerId { get; set; }
         [Required]
         public string? Name { get; set; }
         public bool WithCheese { get; set; }
         [VerificarRango]
         public decimal Precio { get; set; }
+
         public List<Promo>? Promo { get; set; }
     }
 
@@ -18,7 +19,7 @@ namespace AnahiQuezada_EjecicioCF.Models
         public override bool IsValid(object? value)
         {
             decimal valor = (decimal)value;
-            if (valor < 20) 
+            if (valor < 20)
             {
                 return true;
             }

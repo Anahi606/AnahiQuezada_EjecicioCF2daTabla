@@ -15,7 +15,7 @@ namespace AnahiQuezada_EjecicioCF.Migrations
                 name: "Burger",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    BurgerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     WithCheese = table.Column<bool>(type: "bit", nullable: false),
@@ -23,28 +23,28 @@ namespace AnahiQuezada_EjecicioCF.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Burger", x => x.Id);
+                    table.PrimaryKey("PK_Burger", x => x.BurgerId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Promo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    PromoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PromoId = table.Column<int>(type: "int", nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FechaPromo = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BurgerId = table.Column<int>(type: "int", nullable: true)
+                    PromoDescripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FechaPromocion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BurgerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Promo", x => x.Id);
+                    table.PrimaryKey("PK_Promo", x => x.PromoId);
                     table.ForeignKey(
                         name: "FK_Promo_Burger_BurgerId",
                         column: x => x.BurgerId,
                         principalTable: "Burger",
-                        principalColumn: "Id");
+                        principalColumn: "BurgerId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
